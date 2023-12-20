@@ -1,8 +1,5 @@
 import re
-import pandas
 from collections import Counter
-import matplotlib.pyplot as plt
-import numpy as np
 
 
 # inconsistent index naming scheme
@@ -149,41 +146,3 @@ def find_all_amino_acids_fast(file_path):
             amino_acids_counter.append(Counter(aa))
 
     return amino_acids_counter
-
-
-# compare variance positions
-# variations = []
-# for i in range(0, 347):
-#     amino_acids = find_amino_acids('B_prot.txt', i)
-#     amino_acids_counts = Counter(amino_acids)
-#     common_variations = 0
-#     for aa, count in amino_acids_counts.items():
-#         if count > 96:
-#             common_variations += 1
-#     variations.append(common_variations)
-
-
-# variations = np.array(variations)
-
-# histogram amino acids 116
-# amino_acids = find_amino_acids('B_prot.txt', 116)
-# amino_acids_counts = Counter(amino_acids)
-# df = pandas.DataFrame.from_dict(amino_acids_counts, orient='index')
-# df.plot(kind='bar')
-# plt.show()
-
-amino_acids_counter = find_all_amino_acids_fast('B_prot.txt')
-total_amino_acids = Counter()
-variations = []
-for c in amino_acids_counter:
-    total_amino_acids.update(c)
-    common_variations = 0
-    for aa, count in c.items():
-        if count > 96:
-            common_variations += 1
-    variations.append(common_variations)
-
-# actual position different from position in variations due to negative start position
-variations = np.array(variations)
-
-print()
