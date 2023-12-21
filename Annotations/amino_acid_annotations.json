@@ -1,0 +1,22 @@
+{
+  "A": {"name": "Alanine", "class":"Aliphatic", "polarity":"Nonpolar"},
+  "R": {"name": "Arginine", "class":"Fixed cation", "polarity":"Basic polar"},
+  "N": {"name": "Asparagine", "class":"Amide", "polarity":"Polar"},
+  "D": {"name": "Aspartate", "class":"Anion", "polarity":"Brønsted base"},
+  "C": {"name": "Cysteine", "class":"Thiol", "polarity":"Brønsted acid"},
+  "Q": {"name": "Glutamine", "class":"Amide", "polarity":"Polar"},
+  "E": {"name": "Glutamate", "class":"Anion", "polarity":"Brønsted base"},
+  "G": {"name": "Glycine", "class":"Aliphatic", "polarity":"Nonpolar"},
+  "H": {"name": "Histidine", "class":"Cationic", "polarity":"Brønsted acid and base"},
+  "I": {"name": "Isoleucine", "class":"Aliphatic", "polarity":"Nonpolar"},
+  "L": {"name": "Leucine", "class":"Aliphatic", "polarity":"Nonpolar"},
+  "K": {"name": "Lysine", "class":"Cation", "polarity":"Brønsted acid"},
+  "M": {"name": "Methionine", "class":"Thioether", "polarity":"Nonpolar"},
+  "F": {"name": "Phenylalanine", "class":"Aromatic", "polarity":"Nonpolar"},
+  "P": {"name": "Proline", "class":"Cyclic", "polarity":"Nonpolar"},
+  "S": {"name": "Serine", "class":"Hydroxylic", "polarity":"Polar"},
+  "T": {"name": "Threonine", "class":"Hydroxylic", "polarity":"Polar"},
+  "W": {"name": "Tryptophan", "class":"Aromatic", "polarity":"Nonpolar"},
+  "Y": {"name": "Tyrosine", "class":"Aromatic", "polarity":"Brønsted acid"},
+  "V": {"name": "Valine", "class":"Aliphatic", "polarity":"Nonpolar"}
+}

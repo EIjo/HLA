@@ -1,3 +1,4 @@
+import json
 import re
 from collections import Counter
 
@@ -11,7 +12,7 @@ def find_amino_acids(file_path, position):
     line_start = 0
     reference = []
     index_dict = []
-    with open('B_prot.txt', 'r') as file:
+    with open('Data/B_prot.txt', 'r') as file:
         for line in file:
             # get line start information as well as the index of the position
             if line.__contains__('Prot'):
@@ -146,3 +147,19 @@ def find_all_amino_acids_fast(file_path):
             amino_acids_counter.append(Counter(aa))
 
     return amino_acids_counter
+
+
+def cluster_counter(counter, aa_property):
+    with open('Annotations/amino_acid_annotations.json') as fd:
+        aa_annotations = json.load(fd)
+
+    res = {}
+    for aa, n in counter.items():
+        if aa_annotations.__contains__(aa):
+            if res.__contains__(aa_annotations[aa][aa_property]):
+                res[aa_annotations[aa][aa_property]] += n
+            else:
+                res[aa_annotations[aa][aa_property]] = n
+        else:
+            res[aa] = n
+    return res
