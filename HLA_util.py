@@ -6,25 +6,24 @@ from collections import Counter
 # inconsistent index naming scheme
 def find_amino_acids(file_path, position):
     amino_acids = []
-    seq_count = 0
     seq_index = 0
     position_index = 0
     line_start = 0
     reference = []
     index_dict = []
-    with open('Data/B_prot.txt', 'r') as file:
+    amino_acids_ids = {}
+
+    with open(file_path, 'r') as file:
         for line in file:
             # get line start information as well as the index of the position
             if line.__contains__('Prot'):
                 line_start = line.index(line.split()[1][0])
                 line_start_index = int(line.split()[1])
                 seq_index = 0
-                seq_count = seq_index
                 next(file)
             elif re.search('[A-Za-z]+\*[0-9]+:[0-9]+.*', line):
                 # add reference at start of block
                 if seq_index == 0:
-                    # can be nicer I think
                     seq = line[line_start:]
                     for i in seq:
                         if i == ' ':
@@ -43,43 +42,45 @@ def find_amino_acids(file_path, position):
                         position_index = line_start
 
                         i = 0
-                        ## with or without +1??? without more variation but counting looks like +1 is valid??
                         while i < position - line_start_index:
-                            a = line[position_index:]
                             if not (line[position_index] == ' ' or line[position_index] == '.'):
                                 i += 1
                             position_index += 1
 
-                        # position_index = position - line_start_index + 1
-                        # print(line[position_index])
                         amino_acids.append(line[position_index])
-                        # print(len(line))
                     else:
                         if position_index < len(line):
                             if line[position_index] == '-':
                                 amino_acids.append(amino_acids[0])
                             elif line[position_index] == '\n':
                                 amino_acids.append('.')
-                                # print(len(line))
                             elif line[position_index] == ' ':
                                 amino_acids.append('.')
-                                # print(len(line))
                             else:
                                 amino_acids.append(line[position_index])
                         else:
                             amino_acids.append('.')
+
+                    prot_id = line.split()[0].split(':')[0]
+                    if amino_acids_ids.__contains__(amino_acids[-1]):
+                        if amino_acids_ids[amino_acids[-1]].__contains__(prot_id):
+                            amino_acids_ids[amino_acids[-1]][prot_id] += 1
+                        else:
+                            amino_acids_ids[amino_acids[-1]][prot_id] = 1
+                    else:
+                        amino_acids_ids[amino_acids[-1]] = {prot_id: 1}
+
                 elif position < line_start_index:
                     break
                 seq_index += 1
-    return amino_acids
+
+    return amino_acids, amino_acids_ids
 
 
 def find_all_amino_acids_fast(file_path):
     amino_acids_block = {}
     amino_acids_counter = []
-    seq_count = 0
     seq_index = 0
-    position_index = 0
     position_indices = []
     line_start = 0
     reference = []
@@ -95,12 +96,10 @@ def find_all_amino_acids_fast(file_path):
                 line_start = line.index(line.split()[1][0])
                 line_start_index = int(line.split()[1])
                 seq_index = 0
-                seq_count = seq_index
                 next(file)
             elif re.search('[A-Za-z]+\*[0-9]+:[0-9]+.*', line):
                 # add reference at start of block
                 if seq_index == 0:
-                    # can be nicer I think
                     seq = line[line_start:]
                     for i in seq:
                         if i == ' ':
@@ -117,9 +116,7 @@ def find_all_amino_acids_fast(file_path):
                     position_indices = []
                     position_index = line_start
                     i = 0
-                    ## with or without +1??? without more variation but counting looks like +1 is valid??
                     while i < len(ref):
-                        a = line[position_index:]
                         if not (line[position_index] == ' ' or line[position_index] == '.'):
                             i += 1
                             position_indices.append(position_index)
@@ -163,3 +160,11 @@ def cluster_counter(counter, aa_property):
         else:
             res[aa] = n
     return res
+
+
+def get_unique_proteins(amino_acids_ids, threshold=100):
+    for aa, counts in amino_acids_ids.items():
+        print(aa)
+        for prot_id, c in counts.items():
+            if c > threshold:
+                print(prot_id)

@@ -3,7 +3,7 @@ import pandas
 import numpy as np
 import matplotlib.pyplot as plt
 from collections import Counter
-from HLA_util import find_amino_acids, find_all_amino_acids_fast, cluster_counter
+import HLA_util
 
 parser = argparse.ArgumentParser(
     description=''' 
@@ -28,18 +28,27 @@ parser.add_argument(
     help='if set the amino-acid histogram will be clustered together based on a shared property. '
          'Currently class and polarity are the options available'
 )
-
+parser.add_argument(
+    '--protein_threshold', '-pt', nargs=1, required=False,
+    help='if set changes the threshold of minimum amount of proteins needed '
+         'before they are considered expressed by the spesific amino acid at the specified location'
+)
 
 if __name__ == '__main__':
     args = parser.parse_args()
     file = args.input[0]
 
     if args.position:
-        amino_acids = find_amino_acids(file, int(args.position[0]))
+        amino_acids, amino_acids_ids = HLA_util.find_amino_acids(file, int(args.position[0]))
         amino_acids_counts = Counter(amino_acids)
 
+        if args.protein_threshold:
+            HLA_util.get_unique_proteins(amino_acids_ids, int(args.protein_threshold[0]))
+        else:
+            HLA_util.get_unique_proteins(amino_acids_ids)
+
         if args.cluster:
-            amino_acids_counts_cluster = cluster_counter(amino_acids_counts, args.cluster[0])
+            amino_acids_counts_cluster = HLA_util.cluster_counter(amino_acids_counts, args.cluster[0])
             df = pandas.DataFrame.from_dict(amino_acids_counts_cluster, orient='index')
             df.plot(kind='bar')
             plt.show()
@@ -49,7 +58,7 @@ if __name__ == '__main__':
             plt.show()
 
     if args.count:
-        amino_acids_counter = find_all_amino_acids_fast(file)
+        amino_acids_counter = HLA_util.find_all_amino_acids_fast(file)
 
         total_amino_acids = Counter()
         variations = []
@@ -66,3 +75,6 @@ if __name__ == '__main__':
         variations = np.array(variations)
         print('max variations = ' + str(np.max(variations)))
         print('average variations = ' + str(np.average(variations)))
+
+
+
