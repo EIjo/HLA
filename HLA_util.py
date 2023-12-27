@@ -162,9 +162,30 @@ def cluster_counter(counter, aa_property):
     return res
 
 
-def get_unique_proteins(amino_acids_ids, threshold=100):
+def get_unique_proteins(amino_acids_ids, threshold=56):
+    id_set = set()
+    id_counted = []
     for aa, counts in amino_acids_ids.items():
-        print(aa)
+        # print(aa)
         for prot_id, c in counts.items():
+            id_set.add(prot_id)
             if c > threshold:
-                print(prot_id)
+                id_counted.append(prot_id)
+                # print(prot_id)
+    completeness = len(set(id_counted)) / len(id_set)
+    duplicates = len(id_counted) - len(set(id_counted))
+    return completeness, duplicates
+
+
+def calc_threshold_proteins(amino_acids_ids):
+    completeness_list = []
+    duplicates_list = []
+    for i in range(200):
+        completeness, duplicates = get_unique_proteins(amino_acids_ids, i)
+        completeness_list.append(completeness)
+        duplicates_list.append(duplicates)
+    return completeness_list, duplicates_list
+
+
+def sort_by_other_dict(d, order):
+    return {k: d[k] for k in order}
