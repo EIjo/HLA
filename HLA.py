@@ -20,8 +20,7 @@ parser.add_argument(
 )
 parser.add_argument(
     '--count', '-c', action='store_true',
-    help='if set the tool will output the total amount of amino-acids found in file '
-         'as well as an histogram of different amino-acids found per position'
+    help='if set the tool will output a histogram of common variations found per position'
 )
 parser.add_argument(
     '--cluster', '-cl', nargs=1, required=False,
@@ -31,7 +30,7 @@ parser.add_argument(
 parser.add_argument(
     '--protein_threshold', '-pt', nargs=1, required=False,
     help='if set changes the threshold of minimum amount of proteins needed '
-         'before they are considered expressed by the spesific amino acid at the specified location'
+         'before they are considered expressed by the specific amino acid at the specified location'
 )
 parser.add_argument(
     '--threshold_test', '-tt', action='store_true',
