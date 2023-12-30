@@ -7,7 +7,7 @@
   "Q": {"name": "Glutamine", "class":"Amide", "polarity":"Polar"},
   "E": {"name": "Glutamate", "class":"Anion", "polarity":"Bronsted base"},
   "G": {"name": "Glycine", "class":"Aliphatic", "polarity":"Nonpolar"},
-  "H": {"name": "Histidine", "class":"Cationic", "polarity":"Bronsted acid and base"},
+  "H": {"name": "Histidine", "class":"Cationic", "polarity":"Bronsted a+b"},
   "I": {"name": "Isoleucine", "class":"Aliphatic", "polarity":"Nonpolar"},
   "L": {"name": "Leucine", "class":"Aliphatic", "polarity":"Nonpolar"},
   "K": {"name": "Lysine", "class":"Cation", "polarity":"Bronsted acid"},

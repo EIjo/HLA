@@ -72,6 +72,9 @@ if __name__ == '__main__':
             fig, ax1 = plt.subplots()
 
             color = 'tab:red'
+
+            plt.vlines(x=56, ymin=0, ymax=1, colors='red', ls=':', lw=2, label='vline_single - full height')
+
             ax1.set_xlabel('threshold value')
             ax1.set_ylabel('%completeness', color=color)
             ax1.plot(t, completeness_list, color=color)
@@ -87,20 +90,25 @@ if __name__ == '__main__':
             fig.tight_layout()
             plt.show()
 
+        fig = plt.figure(figsize=(10, 5))
+
         if args.cluster:
             amino_acids_counts_cluster = HLA_util.cluster_counter(amino_acids_counts, args.cluster[0], aa_annotations)
-
             # sort by amino acid cluster counts (by highest count first)
             amino_acids_counts = dict(sorted(amino_acids_counts_cluster.items(), key=lambda x: -x[1]))
 
-        fig = plt.figure(figsize=(10, 5))
+            plt.title(f'Amino acid frequency at position 116 clustered on their {args.cluster[0]}')
+            plt.rcParams['font.size'] = 8
+        else:
+            plt.title("Amino acid frequency at position 116")
 
         # creating the bar plot
         plt.bar(list(amino_acids_counts.keys()), list(amino_acids_counts.values()))
 
+
+
         plt.xlabel("Amino acids")
         plt.ylabel("Amino acid frequency")
-        plt.title("Amino acid frequency at position 116")
         plt.show()
 
     if args.count:
