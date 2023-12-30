@@ -2,8 +2,8 @@ import re
 from collections import Counter
 
 
-# inconsistent index naming scheme
 def find_amino_acids(file_path, position):
+    """Finds amino acids and protein ids of a specific position in an alignment file"""
     amino_acids = []
     seq_index = 0
     position_index = 0
@@ -77,6 +77,7 @@ def find_amino_acids(file_path, position):
 
 
 def find_all_amino_acids_fast(file_path):
+    """Returns amino acids counts of all positions of the reference alignment in an alignment file"""
     amino_acids_block = {}
     amino_acids_counter = []
     seq_index = 0
@@ -146,7 +147,7 @@ def find_all_amino_acids_fast(file_path):
 
 
 def cluster_counter(counter, aa_property, aa_annotations):
-
+    """Clusters amino acids based on their annotations"""
     res = {}
     for aa, n in counter.items():
         if aa_annotations.__contains__(aa):
@@ -160,6 +161,8 @@ def cluster_counter(counter, aa_property, aa_annotations):
 
 
 def get_unique_proteins(amino_acids_ids, threshold=56, threshold_test=False):
+    """Returns the unique protein id with a minimum amount higher than the set threshold,
+    unless the threshold flag is set to True, then it will return the completeness and number of duplicates"""
     id_set = set()
     id_counted = []
     aa_ids_threshold = {}
@@ -179,7 +182,9 @@ def get_unique_proteins(amino_acids_ids, threshold=56, threshold_test=False):
     else:
         return aa_ids_threshold
 
+
 def calc_threshold_proteins(amino_acids_ids):
+    """Function to analyze the amount of completeness and duplicates for different thresholds up to 200"""
     completeness_list = []
     duplicates_list = []
     for i in range(200):

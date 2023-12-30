@@ -117,7 +117,10 @@ if __name__ == '__main__':
                 if count > int(amino_acids_counter[0].total()/100):
                     common_variations += 1
             if common_variations >= 6:
-                print(len(variations)-23)
+                # the position is -23 because the file starts at a negative index
+                # (should be changed to work with different files)
+                print(f'high degree of variation found at position:{len(variations)-23} '
+                      f'with degree: {common_variations}')
             variations.append(common_variations)
 
         # actual position different from position in variations due to negative start position
